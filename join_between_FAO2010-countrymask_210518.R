@@ -16,10 +16,10 @@ sapply(countrykeys_210518, class)
 cols = 3
 
 as.integer(countrykeys_210518$raste_code)
-FAO2010selectedJoined = FAO2010selected %>% left_join(countrykeys_210518, by = c("Area.Code" = "rest_code"))
+FAO2010selectedJoined = FAO2010selected %>% left_join(countrykeys_210518, by = c("Area.Code" = "raste_code"))
 as.character(countrykeys_210518$raste_code)
 as.character(FAO2010selected$Area.Code)
 
-FAO2010selectedJoined = FAO2010selected %>% left_join(countrykeys_210518, by = c("Area.Code" = "rest_code"))
+FAO2010selectedJoined = FAO2010selected %>% left_join(countrykeys_210518, by = c("Area.Code" = "raste_code"))
 
 
