@@ -1,25 +1,21 @@
-library(tidyverse)
+# edits: cleaned code; removed unnecessary code chuncks; removed unnecessary dependencies
+# added globals: pathes to data - easier to modify in case the code needs to run on a different computer.
+# formated code: use <- instead of =; Keep spaces before and after  <-.; try to align code lines; simplify variabls names
+# added comments to coe
 library(dplyr)
-library(tibble)
-library(magrittr)
+
+path_fao         <- "..\\data\\FAOSTAT_production.csv" # "C:\\Users\\Guy\\Desktop\\SPAM2010\\FAO2010.csv"
+path_spam        <- "D:\\Dropbox\\GitHub\\SPAM18\\data\\spam2005_v32\\spam2005V3r2_global_A_TA.csv" #"C:\\Users\\Guy\\Desktop\\SPAM2010\\spam2005_v32\\spam2005V3r2_global_A_TA.csv"
+path_countrykeys <- "D:\\Dropbox\\GitHub\\SPAM18\\data\\countrykeys_210518.rds" # "C:\\Users\\Guy\\Desktop\\SPAM2010\\countrykeys_210518.RDS"
+
+fao <- read.csv(path_fao, stringsAsFactors = FALSE)
+# you need to load the production first (spam2005V3r2_global_P_TA)
+# write next line as a function that gets a path, a technology and an indicator and load a the relevant spamfile
+spam_a_ta   <- read.csv(path_spam, stringsAsFactors = FALSE)
+countrykeys <- readRDS(path_countrykeys)
 
 
-FAO2010 = read.csv("C:\\Users\\Guy\\Desktop\\SPAM2010\\FAO2010.csv")
-spam2005V3r2_global_A_TA= read.csv("C:\\Users\\Guy\\Desktop\\SPAM2010\\spam2005_v32\\spam2005V3r2_global_A_TA.csv")
-countrykeys_210518 = readRDS("C:\\Users\\Guy\\Desktop\\SPAM2010\\countrykeys_210518.RDS")
+fao <- fao[c("Area.Code","Area","Item.Code","Item","Element.Code","Element","Unit","Y2010","Y2010F")] # use a subset function to subset variables `[`
+fao <- left_join(fao, countrykeys, by = c("Area.Code" = "raste_code")) # can also use merge()
 
-FAO2010selected = FAO2010%>%select("Area.Code","Area","Item.Code","Item","Element.Code","Element","Unit","Y2010","Y2010F")
-
-
-sapply(FAO2010selected, class)
-sapply(countrykeys_210518, class)
-cols = 3
-
-as.integer(countrykeys_210518$raste_code)
-FAO2010selectedJoined = FAO2010selected %>% left_join(countrykeys_210518, by = c("Area.Code" = "raste_code"))
-as.character(countrykeys_210518$raste_code)
-as.character(FAO2010selected$Area.Code)
-
-FAO2010selectedJoined = FAO2010selected %>% left_join(countrykeys_210518, by = c("Area.Code" = "raste_code"))
-
-
+# continute script to calculate the variabels according to the methodology
